@@ -22,7 +22,7 @@ export default props => {
             if (node.state === 'infected') {
                 if (time > node.infectedSince + (props.endInfectionAfterSeconds * 1000)) {
                     newNodes[i].state = node.willDie ? 'dead' : 'sane';
-                } else if (!node.confined && random(0, 1) === 0) { // probability to sneeze
+                } else if (!node.confined) {
                     neighborsHelper(node, nodes).forEach(neighborIndex => {
                         if (
                             !nodesToBeUpdated[neighborIndex].confined &&
