@@ -8,7 +8,7 @@ export default (nbNodes, startInfected, lethality) => {
         state: 'sane',
         confined: false,
         alreadyBeenInfected: false,
-        willDie: random(0, 100) < lethality
+        willDie: random(0, 100) <= lethality
     }));
 
     for (let i = 0 ; i < startInfected ; i++) {
