@@ -14,7 +14,7 @@ export default () => {
     };
 
     return stage === 'simulation' ? <Display
-        nbNodes={2500}
+        nbNodes={5625}
         startTime={startTime}
         {...configuration}
     /> : <Configuration onStart={handleStart} />;

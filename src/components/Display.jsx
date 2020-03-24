@@ -10,8 +10,8 @@ export default props => {
     const [simulationSize] = useState(window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight);
     const [nodeSize] = useState((window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight) / Math.sqrt(props.nbNodes));
     const [startTime] = useState((new Date()).getTime());
+    const [confinementStarted, setConfinementStarted] = useState(false);
     let nodesToBeUpdated = initialNodesHelper(props.nbNodes, props.startInfected, props.lethality);
-    let confinementStarted = false;
     const [nodes, setNodes] = useState(nodesToBeUpdated);
 
     const newTurn = () => {
@@ -50,7 +50,7 @@ export default props => {
                     newNodes[i].confined = true;
                 }
             });
-            confinementStarted = true;
+            setConfinementStarted(true);
         }
 
         nodesToBeUpdated = newNodes;
@@ -78,6 +78,7 @@ export default props => {
             infected={nodes.filter(n => n.state === 'infected').length}
             dead={nodes.filter(n => n.state === 'dead').length}
             startTime={startTime}
+            confinementStarted={confinementStarted}
         />
     </div>
 }

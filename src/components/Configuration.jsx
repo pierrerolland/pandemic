@@ -38,7 +38,7 @@ export default props => {
                 Percentage of infectivity
             </Typography>
             <Slider
-                defaultValue={50}
+                defaultValue={20}
                 step={10}
                 marks
                 min={10}
@@ -98,7 +98,7 @@ export default props => {
                 Time after healing/death happens
             </Typography>
             <Slider
-                defaultValue={5}
+                defaultValue={10}
                 step={1}
                 marks
                 min={1}
