@@ -11,6 +11,7 @@ export default props => {
     const [nodeSize] = useState((window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight) / Math.sqrt(props.nbNodes));
     const [startTime] = useState((new Date()).getTime());
     const [confinementStarted, setConfinementStarted] = useState(false);
+    let staticConfinementStarted = false;
     let nodesToBeUpdated = initialNodesHelper(props.nbNodes, props.startInfected, props.lethality);
     const [nodes, setNodes] = useState(nodesToBeUpdated);
 
@@ -44,13 +45,14 @@ export default props => {
                 }
             }
         });
-        if (!confinementStarted && time > props.startConfinementAfterSeconds * 1000 + props.startTime) {
+        if (!staticConfinementStarted && time > props.startConfinementAfterSeconds * 1000 + props.startTime) {
             nodesToBeUpdated.forEach((node, i) => {
                 if (random(0, 100) <= props.confineRate) {
                     newNodes[i].confined = true;
                 }
             });
             setConfinementStarted(true);
+            staticConfinementStarted = true
         }
 
         nodesToBeUpdated = newNodes;

@@ -98,7 +98,7 @@ export default props => {
                 Time after healing/death happens
             </Typography>
             <Slider
-                defaultValue={10}
+                defaultValue={11}
                 step={1}
                 marks
                 min={1}
