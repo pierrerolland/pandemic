@@ -7,7 +7,7 @@ export default (nbNodes, startInfected, lethality) => {
         y: Math.floor(i / rowLength),
         state: 'sane',
         confined: false,
-        alreadyBeenInfected: false,
+        infectionsCounter: 0,
         willDie: random(0, 100) <= lethality
     }));
 

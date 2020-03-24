@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import CanvasJSReact from '../vendor/canvasjscharts/canvasjs.react';
-const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 import './Results.css';
+
+const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 export default props => {
     const [endTime, setEndTime] = useState(null);
@@ -9,7 +10,8 @@ export default props => {
         animationEnabled: false,
         exportEnabled: false,
         axisY: {
-            suffix: "%"
+            suffix: "%",
+            maximum: 100
         },
         legend: {
             verticalAlign: "center",

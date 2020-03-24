@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Display from './components/Display';
 import Configuration from './components/Configuration';
+import config from './config.json';
 
 export default () => {
     const [stage, setStage] = useState('configuration');
@@ -14,7 +15,7 @@ export default () => {
     };
 
     return stage === 'simulation' ? <Display
-        nbNodes={5625}
+        nbNodes={config.nbNodes}
         startTime={startTime}
         {...configuration}
     /> : <Configuration onStart={handleStart} />;

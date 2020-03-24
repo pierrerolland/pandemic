@@ -30,15 +30,16 @@ export default props => {
                             nodesToBeUpdated[neighborIndex].state === 'sane' &&
                             random(0, 100) <= props.infectivity &&
                             (
-                                nodesToBeUpdated[neighborIndex].alreadyBeenInfected === false ||
+                                nodesToBeUpdated[neighborIndex].infectionsCounter === 0 ||
                                 (
-                                    nodesToBeUpdated[neighborIndex].alreadyBeenInfected === true &&
+                                    nodesToBeUpdated[neighborIndex].infectionsCounter > 0 &&
+                                    nodesToBeUpdated[neighborIndex].infectionsCounter < props.maxReinfections &&
                                     random(0, 100) <= props.reinfectionProbabilityRate
                                 )
                             )
                         ) {
                             newNodes[neighborIndex].state = 'infected';
-                            newNodes[neighborIndex].alreadyBeenInfected = true;
+                            newNodes[neighborIndex].infectionsCounter++;
                             newNodes[neighborIndex].infectedSince = time;
                         }
                     });

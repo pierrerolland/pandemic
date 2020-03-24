@@ -8,6 +8,7 @@ export default props => {
         lethality: 15,
         confineRate: 50,
         reinfectionProbabilityRate: 15,
+        maxReinfections: 2,
         startConfinementAfterSeconds: 10,
         endInfectionAfterSeconds: 5
     });
@@ -59,6 +60,18 @@ export default props => {
                 onChange={(e, v) => { handleChange('reinfectionProbabilityRate', v) }}
             />
             <Typography>
+                Maximum of times a person can be reinfected
+            </Typography>
+            <Slider
+                defaultValue={2}
+                step={1}
+                marks
+                min={0}
+                max={10}
+                valueLabelDisplay="auto"
+                onChange={(e, v) => { handleChange('maxReinfections', v) }}
+            />
+            <Typography>
                 Percentage of lethality
             </Typography>
             <Slider
@@ -77,7 +90,7 @@ export default props => {
                 defaultValue={50}
                 step={5}
                 marks
-                min={5}
+                min={0}
                 max={100}
                 valueLabelDisplay="auto"
                 onChange={(e, v) => { handleChange('confineRate', v) }}
