@@ -5,7 +5,7 @@ A small pandemic simulation made in React.js.
 ## Getting started
 
 ```bash
-git clone git@github.com:pierrerolland/pandemic.git
+git clone https://github.com/pierrerolland/pandemic.git
 cd pandemic
 yarn install
 yarn start
