@@ -89,7 +89,7 @@ export default (
     })
     logs.overall.push({
         turnId,
-        overallSane: newNodes.length - overallDead - newlyDead - overallInfected - newlyInfected,
+        overallSane: newNodes.length - overallInfected - newlyInfected,
         overallInfected: overallInfected + newlyInfected,
         overallDead: overallDead + newlyDead,
         confined: lockDownActive ? newNodes.length : 0
