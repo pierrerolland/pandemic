@@ -19,8 +19,38 @@ export default (nbNodes, startInfected, lethality) => {
         } while (nodes[r].state !== 'sane');
 
         nodes[r].state = 'infected';
-        nodes[r].infectedSince = (new Date()).getTime();
+        nodes[r].infectedSince = 0;
     }
 
-    return nodes;
+    return {
+        nodes,
+        logs: {
+            overview: [
+                {
+                    turnId: 0,
+                    sane: nbNodes - startInfected,
+                    infected: startInfected,
+                    dead: 0,
+                    confined: 0
+                }
+            ],
+            newly: [
+                {
+                    turnId: 0,
+                    newlyInfected: startInfected,
+                    newlyDead: 0,
+                    confined: 0
+                }
+            ],
+            overall: [
+                {
+                    turnId: 0,
+                    overallSane: nbNodes - startInfected,
+                    overallInfected: startInfected,
+                    overallDead: 0,
+                    confined: 0
+                }
+            ]
+        }
+    };
 }

@@ -1,87 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Simulation from './Simulation';
 import initialNodesHelper from '../helper/initialNodesHelper';
 import Results from './Results';
-import neighborsHelper from '../helper/neighborsHelper';
-import { random } from 'lodash';
+import { useInterval } from '../hooks/useInterval'
+import turnHelper from "../helper/turnHelper";
 
 export default props => {
     const [mode] = useState(window.innerHeight > window.innerWidth ? 'vertical' : 'horizontal');
     const [simulationSize] = useState(window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight);
     const [nodeSize] = useState((window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight) / Math.sqrt(props.nbNodes));
-    const [startTime] = useState((new Date()).getTime());
-    const [confinementStarted, setConfinementStarted] = useState(false);
-    let staticConfinementStarted = false;
-    let nodesToBeUpdated = initialNodesHelper(props.nbNodes, props.startInfected, props.lethality);
-    const [nodes, setNodes] = useState(nodesToBeUpdated);
+    const [data, setData] = useState(initialNodesHelper(props.nbNodes, props.startInfected, props.lethality));
+    const [turnId, setTurnId] = useState(0);
+    const [isLockDownActive, setLockDownActive] = useState(false);
 
     const newTurn = () => {
-        const newNodes = [...nodesToBeUpdated.map(n => ({...n}))];
-        const time = (new Date()).getTime();
-
-        nodesToBeUpdated.forEach((node, i) => {
-            if (node.state === 'infected') {
-                if (time > node.infectedSince + (props.endInfectionAfterSeconds * 1000)) {
-                    newNodes[i].state = node.willDie ? 'dead' : 'sane';
-                } else if (!node.confined) {
-                    neighborsHelper(node, nodes).forEach(neighborIndex => {
-                        if (
-                            !nodesToBeUpdated[neighborIndex].confined &&
-                            nodesToBeUpdated[neighborIndex].state === 'sane' &&
-                            random(0, 100) <= props.infectivity &&
-                            (
-                                nodesToBeUpdated[neighborIndex].infectionsCounter === 0 ||
-                                (
-                                    nodesToBeUpdated[neighborIndex].infectionsCounter > 0 &&
-                                    nodesToBeUpdated[neighborIndex].infectionsCounter < props.maxReinfections &&
-                                    random(0, 100) <= props.reinfectionProbabilityRate
-                                )
-                            )
-                        ) {
-                            newNodes[neighborIndex].state = 'infected';
-                            newNodes[neighborIndex].infectionsCounter++;
-                            newNodes[neighborIndex].infectedSince = time;
-                        }
-                    });
-                }
-            }
-        });
-        if (!staticConfinementStarted && time > props.startConfinementAfterSeconds * 1000 + props.startTime) {
-            nodesToBeUpdated.forEach((node, i) => {
-                if (random(0, 100) <= props.confineRate) {
-                    newNodes[i].confined = true;
-                }
-            });
-            setConfinementStarted(true);
-            staticConfinementStarted = true
-        }
-
-        nodesToBeUpdated = newNodes;
-        setNodes(nodesToBeUpdated);
+        setData(turnHelper(
+           data,
+           turnId,
+           props.endInfectionAfterTurns,
+           props.infectivity,
+           props.maxReinfections,
+           props.reinfectionProbabilityRate,
+           isLockDownActive,
+           props.confineRate
+        ))
+        setTurnId(turnId + 1);
     };
 
-    useEffect(() => {
-        setInterval(newTurn, 300);
-    }, []);
+    useInterval(newTurn, 500);
 
     return <div style={{position: 'relative'}}>
         <Simulation
             simulationSize={simulationSize}
             nodeSize={nodeSize}
-            nodes={nodes}
-            infectivity={props.infectivity}
-            confineRate={props.confineRate}
-            startConfinementAfterSeconds={props.startConfinementAfterSeconds}
-            endInfectionAfterSeconds={props.endInfectionAfterSeconds}
+            nodes={data.nodes}
         />
         <Results
             mode={mode}
             simulationSize={simulationSize}
-            sane={nodes.filter(n => n.state === 'sane').length}
-            infected={nodes.filter(n => n.state === 'infected').length}
-            dead={nodes.filter(n => n.state === 'dead').length}
-            startTime={startTime}
-            confinementStarted={confinementStarted}
+            data={data}
+            turnId={turnId}
+            lockDownActive={isLockDownActive}
+            onToggleLockDown={() => setLockDownActive(!isLockDownActive)}
         />
     </div>
 }

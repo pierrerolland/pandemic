@@ -1,14 +1,8 @@
 import React from 'react';
-import Node from './Node';
+import cssGridBuilder from '../builder/cssGridBuilder'
 
 export default props => {
-    return <div style={{width: `${props.simulationSize}px`, height: `${props.simulationSize}px`, backgroundColor: '#CCCCCC'}}>
-        {props.nodes.map((node, i) => (
-            <Node
-                key={i}
-                node={node}
-                nodeSize={props.nodeSize}
-            />
-        ))}
+    return <div style={{width: `${props.simulationSize}px`, height: `${props.simulationSize}px`}}>
+        <div style={cssGridBuilder(props.nodes, props.simulationSize)} />
     </div>
 }

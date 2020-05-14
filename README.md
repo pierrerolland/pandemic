@@ -1,6 +1,6 @@
 # Pandemic
 
-A small simulation made in React.js to better understand the importance of confinement, why the effects aren't immediate, and why it's important to start as soon as possible.
+A small pandemic simulation made in React.js.
 
 ## Getting started
 

@@ -9,8 +9,7 @@ export default props => {
         confineRate: 50,
         reinfectionProbabilityRate: 15,
         maxReinfections: 2,
-        startConfinementAfterSeconds: 10,
-        endInfectionAfterSeconds: 5
+        endInfectionAfterTurns: 11
     });
 
     const handleChange = (property, value) => {
@@ -84,7 +83,7 @@ export default props => {
                 onChange={(e, v) => { handleChange('lethality', v) }}
             />
             <Typography>
-                Percentage of people respecting confinement
+                Percentage of people respecting lockdown
             </Typography>
             <Slider
                 defaultValue={50}
@@ -96,18 +95,6 @@ export default props => {
                 onChange={(e, v) => { handleChange('confineRate', v) }}
             />
             <Typography>
-                Time after confinement starts
-            </Typography>
-            <Slider
-                defaultValue={5}
-                step={1}
-                marks
-                min={0}
-                max={20}
-                valueLabelDisplay="off"
-                onChange={(e, v) => { handleChange('startConfinementAfterSeconds', v) }}
-            />
-            <Typography>
                 Time after healing/death happens
             </Typography>
             <Slider
@@ -117,7 +104,7 @@ export default props => {
                 min={1}
                 max={20}
                 valueLabelDisplay="off"
-                onChange={(e, v) => { handleChange('endInfectionAfterSeconds', v) }}
+                onChange={(e, v) => { handleChange('endInfectionAfterTurns', v) }}
             />
             <Button variant="contained" color="primary" onClick={handleSaveClick}>
                 Start
